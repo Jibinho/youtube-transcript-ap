@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const { YouTubeTranscript } = require('youtube-transcript');
+const YouTubeTranscript = require('youtube-transcript').YouTubeTranscript;
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 
 const app = express();
@@ -40,7 +40,7 @@ app.get('/transcript', async (req, res) => {
     res.send(cleanedTranscript);
   } catch (error) {
     console.error(error);
-    res.status(500).send('Erreur lors de la récupération de la transcription.');
+    res.status(500).send(`Erreur détaillée : ${error.message}`);
   }
 });
 
