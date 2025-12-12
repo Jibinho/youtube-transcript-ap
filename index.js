@@ -7,9 +7,16 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Route racine pour éviter l'erreur "Cannot GET /"
+app.get('/', (req, res) => {
+  res.send('API YouTube Transcript - Utilise /transcript?url=LIEN_YOUTUBE');
+});
+
+// Remplace par ta clé API Gemini
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 
+// Endpoint pour extraire la transcription
 app.get('/transcript', async (req, res) => {
   try {
     const { url } = req.query;
@@ -37,7 +44,5 @@ app.get('/transcript', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Serveur démarré sur le port ${PORT}`);
-});
+// Export pour Vercel
+module.exports = app;
